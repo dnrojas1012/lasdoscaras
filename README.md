@@ -47,8 +47,14 @@ Universidad Técnica Nacional.
 
    git clone https://github.com/barroyo/doscarasapi.git
    cd doscarasapi
-   cp .env.example .env
    docker compose up -d --build
+
+   Nota: el repositorio del API no incluye un archivo .env.example. 
+   Es necesario crear manualmente un archivo .env en la raíz de doscarasapi
+   con las variables JWT_SECRET, SUPERADMIN_EMAIL, SUPERADMIN_PASSWORD,
+   SUPERADMIN_NAME y RUN_SEED. Además, en Windows hay que configurar
+   git config --global core.autocrlf input antes de clonar, o el archivo
+   docker-entrypoint.sh no se ejecuta dentro del contenedor.
 
 5. Ejecutar la aplicación:
 
