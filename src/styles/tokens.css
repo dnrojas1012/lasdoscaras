@@ -1,0 +1,38 @@
+/* Variables CSS: se declaran una vez y se usan en toda la aplicación.*/
+:root {
+    --color-bg: #ffffff;
+    --color-surface: #f5f6f8;
+    --color-text: #1a1a1a;
+    --color-text-muted: #5c6370;
+    --color-border: #d9dce1;
+
+    --color-primary: #2f5fd0;
+    --color-primary-contrast: #ffffff;
+
+    --color-side-a: #2f7fd0;   /* Postura — Lado A */
+    --color-side-b: #d0592f;   /* Contrapostura — Lado B */
+
+    --color-success: #2e7d4f;
+    --color-error: #c0392b;
+    --color-warning: #e0a800;
+    --color-info: #2f5fd0;
+}
+
+[data-theme='dark'] {
+    --color-bg: #16181d;
+    --color-surface: #1f232b;
+    --color-text: #eceef1;
+    --color-text-muted: #a2a9b5;
+    --color-border: #333944;
+
+    --color-primary: #6b95e8;
+    --color-primary-contrast: #10131a;
+
+    --color-side-a: #6ba7e8;
+    --color-side-b: #e8956b;
+
+    --color-success: #4caf7d;
+    --color-error: #e05c4c;
+    --color-warning: #f0c040;
+    --color-info: #6b95e8;
+}
