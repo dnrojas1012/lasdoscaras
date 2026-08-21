@@ -335,18 +335,23 @@ async function request<T>(
 
       : null
 
-  const message = serverMessage ?? HTTP_MESSAGES[status] ?? 'Ocurrió un error inesperado.'
+  // Un 401 significa cosas distintas segun donde ocurra:
+  // en /auth/login o /auth/register son credenciales invalidas y no hay
+  // sesion que cerrar; en cualquier otra ruta, el token vencio o es invalido.
+  const isAuthAttempt = path.startsWith('/auth/login') || path.startsWith('/auth/register')
 
-  if (status === 401) {
+  let message: string
+  if (serverMessage !== null) {
+    message = serverMessage
+  } else if (status === 401 && isAuthAttempt) {
+    message = 'Correo o contraseña incorrectos.'
+  } else {
+    message = HTTP_MESSAGES[status] ?? 'Ocurrió un error inesperado.'
+  }
 
-    // Sesión expirada o token inválido: se limpia la sesión del caché
-
-    // y se avisa a quien haya registrado el manejador.
-
+  if (status === 401 && !isAuthAttempt) {
     cacheService.remove(CACHE_KEYS.auth)
-
     if (onUnauthorized !== null) onUnauthorized()
-
   }
 
   if (status >= 500) {
