@@ -20,7 +20,7 @@ const routes: RouteRecordRaw[] = [
 
   { path: '/', name: 'board', component: Placeholder },
 
-  { path: '/login', name: 'login', component: Placeholder, meta: { guestOnly: true } },
+  { path: '/login', name: 'login', component: () => import('../views/LoginTestView.vue'), meta: { guestOnly: true } },
 
   { path: '/register', name: 'register', component: Placeholder, meta: { guestOnly: true } },
 
