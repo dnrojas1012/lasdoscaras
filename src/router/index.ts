@@ -2,6 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import type { RouteRecordRaw } from 'vue-router'
 
+import { applyGuards } from './guards'
+
+
 // Importación diferida: el archivo se descarga solo cuando el usuario
 
 // entra a esa ruta, no al arrancar la aplicación. Hace que la app
@@ -58,5 +61,6 @@ const router = createRouter({
   routes,
 
 })
+applyGuards(router)
 
 export default router
