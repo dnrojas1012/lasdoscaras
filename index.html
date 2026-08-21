@@ -6,6 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>lasdoscaras</title>
   </head>
+    <script>
+    (function () {
+      try {
+        var raw = localStorage.getItem('lasdoscaras_theme')
+        var theme = null
+        if (raw) {
+          // El cacheService guarda { value, timestamp }, no el texto pelado.
+          // Por eso hay que leer la propiedad .value.
+          theme = JSON.parse(raw).value
+        }
+        if (!theme) {
+          // Si no hay preferencia guardada, se respeta la del sistema operativo.
+          theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        }
+        document.documentElement.setAttribute('data-theme', theme)
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light')
+      }
+    })()
+  </script>
   <body>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
