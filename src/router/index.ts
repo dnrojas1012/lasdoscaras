@@ -51,7 +51,6 @@ const routes: RouteRecordRaw[] = [
   // Por eso va al final: el router evalúa de arriba abajo.
 
   { path: '/:pathMatch(.*)*', name: 'not-found', component: Placeholder },
-
 ]
 
 const router = createRouter({
