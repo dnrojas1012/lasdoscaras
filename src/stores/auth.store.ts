@@ -73,15 +73,30 @@ export const useAuthStore = defineStore('auth', () => {
 
   }
 
-  async function register(name: string, email: string, password: string): Promise<void> {
+   async function register(name: string, email: string, password: string): Promise<void> {
 
-    await authApi.register({ name, email, password })
+    // 1. Crear la cuenta. Queda en estado PENDING y devuelve el token
 
-    // Tras registrarse, se inicia sesión con las mismas credenciales.
+    //    de activacion. En un sistema real ese token llegaria por correo.
+
+    const respuesta = await authApi.register({ name, email, password }) as unknown as
+
+      { activationToken?: string; token?: string }
+
+    // 2. Activar la cuenta. Sin este paso, el login siguiente falla.
+
+    if (respuesta.activationToken) {
+
+      await authApi.activate(respuesta.activationToken)
+
+    }
+
+    // 3. Iniciar sesion con las mismas credenciales.
 
     await login(email, password)
 
   }
+
 
   function logout(): void {
 
