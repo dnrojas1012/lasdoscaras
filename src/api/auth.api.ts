@@ -3,6 +3,11 @@ import { apiClient } from './apiClient'
 import type { AuthResponse, LoginRequest, RegisterRequest, User } from '../models/user.model'
 
 export const authApi = {
+  
+  activate: (activationToken: string): Promise<unknown> =>
+
+    apiClient.get(`/auth/activate/${activationToken}`),
+
 
   login: (data: LoginRequest): Promise<AuthResponse> =>
 
