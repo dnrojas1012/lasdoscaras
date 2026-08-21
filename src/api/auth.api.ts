@@ -1,0 +1,17 @@
+import { apiClient } from './apiClient'
+
+import type { AuthResponse, LoginRequest, RegisterRequest, User } from '../models/user.model'
+
+export const authApi = {
+
+  login: (data: LoginRequest): Promise<AuthResponse> =>
+
+    apiClient.post<AuthResponse>('/auth/login', data),
+
+  register: (data: RegisterRequest): Promise<AuthResponse> =>
+
+    apiClient.post<AuthResponse>('/auth/register', data),
+
+  me: (): Promise<User> => apiClient.get<User>('/auth/me'),
+
+}
