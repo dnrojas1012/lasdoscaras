@@ -20,9 +20,9 @@ const routes: RouteRecordRaw[] = [
 
     { path: '/', name: 'board', component: () => import('../views/BoardView.vue') },
 
-  { path: '/login', name: 'login', component: () => import('../views/LoginTestView.vue'), meta: { guestOnly: true } },
+  { path: '/login', name: 'login', component: () => import('../views/LoginView.vue'), meta: { guestOnly: true } },
 
-  { path: '/register', name: 'register', component: Placeholder, meta: { guestOnly: true } },
+    { path: '/register', name: 'register', component: () => import('../views/RegisterView.vue'), meta: { guestOnly: true } },
 
   { path: '/categories/:id', name: 'category', component: Placeholder },
 
@@ -60,6 +60,9 @@ const router = createRouter({
   routes,
 
 })
+
+
 applyGuards(router)
 
 export default router
+
