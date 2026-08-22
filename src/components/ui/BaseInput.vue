@@ -15,8 +15,7 @@ const props = defineProps<{
   placeholder?: string
 
   // El mensaje de error de ESTE campo. Viene del padre.
-
-  error?: string | null
+ error?: string | null
 
   hint?: string
 
@@ -53,8 +52,7 @@ function onInput(event: Event): void {
       :id="id"
 
       :type="type ?? 'text'"
-
-      :value="modelValue"
+  :value="modelValue"
 
       :placeholder="placeholder"
 
@@ -75,8 +73,7 @@ function onInput(event: Event): void {
     <p v-if="hint && !tieneError" :id="`${id}-hint`" class="field__hint">{{ hint }}</p>
 
     <!-- role="alert" hace que el lector de pantalla anuncie el error
-
-         apenas aparece. -->
+ apenas aparece. -->
 
     <p v-if="tieneError" :id="`${id}-error`" class="field__error" role="alert">
 
@@ -97,7 +94,6 @@ function onInput(event: Event): void {
 .field input {
 
   padding: 0.6rem 0.75rem;
-
   border: 1px solid var(--color-border);
 
   border-radius: 6px;

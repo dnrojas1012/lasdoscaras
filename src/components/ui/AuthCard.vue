@@ -27,7 +27,6 @@ defineProps<{ title: string; subtitle?: string }>()
 .auth { display: flex; justify-content: center; padding: 2rem 1rem; }
 
 .auth__card {
-
   width: 100%; max-width: 26rem;
 
   background: var(--color-surface);

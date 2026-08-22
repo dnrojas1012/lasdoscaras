@@ -17,8 +17,7 @@ const props = defineProps<{
   disabled?: boolean
 
   // Solo se muestra el medidor en el registro, no en el login.
-
-  showStrength?: boolean
+ showStrength?: boolean
 
 }>()
 
@@ -47,7 +46,6 @@ const fuerza = computed(() => {
   if (/[^A-Za-z0-9]/.test(v)) puntos++
 
   return puntos
-
 })
 
 const nivel = computed(() => {
@@ -69,8 +67,7 @@ const nivel = computed(() => {
   <div class="field">
 
     <label :for="id">{{ label }}</label>
-
-    <div class="field__wrap">
+  <div class="field__wrap">
 
       <input
 
@@ -95,8 +92,7 @@ const nivel = computed(() => {
       />
 
       <button
-
-        type="button"
+ type="button"
 
         class="field__toggle"
 
@@ -123,8 +119,7 @@ const nivel = computed(() => {
       <span :class="['strength__text', `strength__text--${nivel.clase}`]">{{ nivel.texto }}</span>
 
     </div>
-
-    <p v-if="tieneError" :id="`${id}-error`" class="field__error" role="alert">{{ error }}</p>
+ <p v-if="tieneError" :id="`${id}-error`" class="field__error" role="alert">{{ error }}</p>
 
   </div>
 
@@ -143,8 +138,7 @@ const nivel = computed(() => {
   flex: 1;
 
   padding: 0.6rem 2.5rem 0.6rem 0.75rem;
-
-  border: 1px solid var(--color-border);
+border: 1px solid var(--color-border);
 
   border-radius: 6px;
 
@@ -171,7 +165,6 @@ const nivel = computed(() => {
 .field__error { font-size: 0.8rem; color: var(--color-error); margin: 0; }
 
 .strength { display: flex; align-items: center; gap: 0.5rem; }
-
 .strength__bar { flex: 1; height: 4px; background: var(--color-border); border-radius: 2px; overflow: hidden; }
 
 .strength__fill { height: 100%; transition: width 0.2s ease; }
