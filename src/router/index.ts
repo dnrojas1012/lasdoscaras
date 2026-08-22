@@ -18,6 +18,8 @@ const Placeholder = () => import('../views/PlaceholderView.vue')
 
 const routes: RouteRecordRaw[] = [
 
+ 
+
   { path: '/', name: 'board', component: Placeholder },
 
   { path: '/login', name: 'login', component: () => import('../views/LoginTestView.vue'), meta: { guestOnly: true } },
@@ -60,6 +62,9 @@ const router = createRouter({
   routes,
 
 })
+
+
 applyGuards(router)
 
 export default router
+
