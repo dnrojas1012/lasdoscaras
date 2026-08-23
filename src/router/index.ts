@@ -18,7 +18,7 @@ const Placeholder = () => import('../views/PlaceholderView.vue')
 
 const routes: RouteRecordRaw[] = [
 
-  { path: '/', name: 'board', component: Placeholder },
+    { path: '/', name: 'board', component: () => import('../views/BoardView.vue') },
 
   { path: '/login', name: 'login', component: () => import('../views/LoginView.vue'), meta: { guestOnly: true } },
 
@@ -44,13 +44,11 @@ const routes: RouteRecordRaw[] = [
 
   { path: '/admin/moderation', name: 'admin-moderation', component: Placeholder, meta: { requiresAuth: true, requiresRole: 'SUPERADMIN' } },
 
-  { path: '/403', name: 'forbidden', component: Placeholder },
+  { path: '/403', name: 'forbidden', component: () => import('../views/ForbiddenView.vue') },
 
-  // Esta última atrapa cualquier dirección que no coincida con las anteriores.
-
-  // Por eso va al final: el router evalúa de arriba abajo.
-
-  { path: '/:pathMatch(.*)*', name: 'not-found', component: Placeholder },
+// Esta última atrapa cualquier dirección que no coincida con las anteriores.
+// Por eso va al final: el router evalúa de arriba abajo.
+{ path: '/:pathMatch(.*)*', name: 'not-found', component: () => import('../views/NotFoundView.vue') },
 ]
 
 const router = createRouter({
