@@ -34,6 +34,7 @@ const routes: RouteRecordRaw[] = [
   // Esta última atrapa cualquier dirección que no coincida con las anteriores.
   // Por eso va al final: el router evalúa de arriba abajo.
   { path: '/:pathMatch(.*)*', name: 'not-found', component: () => import('../views/NotFoundView.vue') },
+
 ]
 
 const router = createRouter({
