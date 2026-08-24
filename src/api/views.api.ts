@@ -1,6 +1,9 @@
 import { apiClient } from './apiClient'
 import type { PoliticalView } from '../models/view.model'
 import type { Paginated } from '../models/api.model'
+import type { ViewSide, SideKind } from '../models/view.model'
+import type { Source } from '../models/source.model'
+
 
 // Parámetros de filtrado del tablero.
 // Nota: el nombre del parámetro de tamaño de página se mantiene como
@@ -44,34 +47,63 @@ function buildQuery(params: Record<string, unknown>): string {
   return query.length > 0 ? `?${query}` : ''
 }
 
-// El API puede devolver la lista envuelta de varias formas.
-// Este normalizador acepta las tres más comunes y siempre entrega la
-// misma estructura, así ningún componente tiene que preocuparse por eso.
-function normalizeList(
-  raw: unknown,
-  page: number,
-  pageSize: number,
-): Paginated<PoliticalView> {
-  if (Array.isArray(raw)) {
-    return { items: raw as PoliticalView[], total: raw.length, page, pageSize }
-  }
-
-  const body = raw as Record<string, unknown>
-  const items = (body.views ?? body.items ?? body.data ?? []) as PoliticalView[]
-
+// Convierte UN lado crudo del API (con likeCount/dislikeCount y type)
+// a la forma que usa la app (con likes/dislikes y kind).
+function normalizeSide(raw: Record<string, unknown>): ViewSide {
   return {
-    items,
-    total: Number(body.total ?? items.length),
-    page: Number(body.page ?? page),
-    // Se acepta pageSize o limit según cómo responda el servidor.
-    pageSize: Number(body.pageSize ?? body.limit ?? pageSize),
+    id: String(raw.id),
+    kind: raw.type as SideKind,
+    title: String(raw.title ?? ''),
+    description: String(raw.description ?? ''),
+    sources: (raw.sources ?? []) as Source[],
+    likes: Number(raw.likeCount ?? 0),
+    dislikes: Number(raw.dislikeCount ?? 0),
+    myReaction: (raw.myReaction ?? null) as ViewSide['myReaction'],
   }
 }
 
-function unwrapView(raw: unknown): PoliticalView {
+const EMPTY_SIDE: ViewSide = {
+  id: '', title: '', description: '', sources: [], likes: 0, dislikes: 0, myReaction: null,
+}
+
+// El API devuelve un arreglo 'sides' con dos elementos distinguidos por
+// 'type': SIDE o COUNTERPART. La app trabaja con dos propiedades separadas,
+// 'side' y 'counterpart', porque es como la consumen todos los componentes.
+// Esta funcion hace esa traduccion en un solo lugar.
+function normalizeView(raw: unknown): PoliticalView {
+  const outer = raw as Record<string, unknown>
+  const b = (outer.view ?? outer) as Record<string, unknown>
+  const sidesArr = (b.sides ?? []) as Array<Record<string, unknown>>
+  const sideRaw = sidesArr.find((s) => s.type === 'SIDE')
+  const counterpartRaw = sidesArr.find((s) => s.type === 'COUNTERPART')
+
+  return {
+    id: String(b.id),
+    status: b.status as PoliticalView['status'],
+    author: b.author as PoliticalView['author'],
+    category: b.category as PoliticalView['category'],
+    side: sideRaw ? normalizeSide(sideRaw) : EMPTY_SIDE,
+    counterpart: counterpartRaw ? normalizeSide(counterpartRaw) : EMPTY_SIDE,
+    hashtags: (b.hashtags ?? []) as PoliticalView['hashtags'],
+    createdAt: String(b.createdAt),
+    updatedAt: b.updatedAt ? String(b.updatedAt) : undefined,
+  }
+}
+
+function normalizeList(raw: unknown, page: number, pageSize: number): Paginated<PoliticalView> {
   const body = raw as Record<string, unknown>
-  // Las respuestas de creación vienen como { view: {...} }.
-  return (body.view ?? body) as PoliticalView
+  const rawItems = Array.isArray(raw) ? raw : ((body.views ?? body.items ?? body.data ?? []) as unknown[])
+  const items = rawItems.map((item) => normalizeView(item))
+  return {
+    items,
+    total: Array.isArray(raw) ? items.length : Number(body.total ?? items.length),
+    page: Array.isArray(raw) ? page : Number(body.page ?? page),
+    // El API real devuelve el campo como 'limit' (lo confirmamos en la
+    // consola), pero nuestra interfaz Paginated<T> lo llama 'pageSize'.
+    // Se traduce el nombre acá para no arrastrar esa inconsistencia
+    // al resto de la aplicación.
+    pageSize: Array.isArray(raw) ? pageSize : Number(body.limit ?? pageSize),
+  }
 }
 
 export const viewsApi = {
@@ -86,17 +118,17 @@ export const viewsApi = {
 
   async getById(id: string): Promise<PoliticalView> {
     const raw = await apiClient.get<unknown>(`/views/${id}`)
-    return unwrapView(raw)
+    return normalizeView(raw)
   },
 
   async create(payload: ViewPayload): Promise<PoliticalView> {
     const raw = await apiClient.post<unknown>('/views', payload)
-    return unwrapView(raw)
+    return normalizeView(raw)
   },
 
   async update(id: string, payload: ViewPayload): Promise<PoliticalView> {
     const raw = await apiClient.put<unknown>(`/views/${id}`, payload)
-    return unwrapView(raw)
+    return normalizeView(raw)
   },
 
   // Reacciones INDEPENDIENTES por lado. 'a' es la Postura, 'b' la Contrapostura.
