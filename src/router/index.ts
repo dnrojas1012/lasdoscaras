@@ -22,7 +22,7 @@ const routes: RouteRecordRaw[] = [
 
   { path: '/login', name: 'login', component: () => import('../views/LoginView.vue'), meta: { guestOnly: true } },
 
-    { path: '/register', name: 'register', component: () => import('../views/RegisterView.vue'), meta: { guestOnly: true } },
+  { path: '/register', name: 'register', component: () => import('../views/RegisterView.vue'), meta: { guestOnly: true } },
 
   { path: '/categories/:id', name: 'category', component: Placeholder },
 
@@ -46,11 +46,9 @@ const routes: RouteRecordRaw[] = [
 
   { path: '/403', name: 'forbidden', component: Placeholder },
 
-  // Esta última atrapa cualquier dirección que no coincida con las anteriores.
-
-  // Por eso va al final: el router evalúa de arriba abajo.
-
   { path: '/:pathMatch(.*)*', name: 'not-found', component: Placeholder },
+
+  { path: '/views/:id', name: 'view-detail', component: () => import('../views/ViewDetailView.vue') },
 ]
 
 const router = createRouter({

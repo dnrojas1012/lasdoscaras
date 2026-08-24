@@ -1,5 +1,6 @@
 import type { Source } from './source.model'
 import type { Category } from './category.model'
+import type { Hashtag } from './hashtag.model'
 
 // El API llama SIDE al Lado A (Postura)
 // y COUNTERPART al Lado B (Contrapostura).
@@ -39,7 +40,7 @@ export interface PoliticalView {
     category: Category
     side: ViewSide
     counterpart: ViewSide
-    likes: number
-    dislikes: number
+    hashtags: Hashtag[]
     createdAt: string
+    updatedAt?: string
 }
