@@ -11,6 +11,7 @@ import { applyGuards } from './guards'
 
 // cargue más rápido la primera vez.
 
+
 const Placeholder = () => import('../views/PlaceholderView.vue')
 
 // 'meta' es información extra que se le cuelga a cada ruta.
@@ -27,7 +28,7 @@ const routes: RouteRecordRaw[] = [
   { path: '/views/:id', name: 'view-detail', component: () => import('../views/ViewDetailView.vue') },
   { path: '/views/:id/edit', name: 'view-edit', component: () => import('../views/ViewFormView.vue'), meta: { requiresAuth: true } },
   { path: '/profile', name: 'profile', component: Placeholder, meta: { requiresAuth: true } },
-  { path: '/search', name: 'search', component: Placeholder },
+   { path: '/search', name: 'search', component: () => import('../views/SearchView.vue') },
   { path: '/authors/:id', name: 'author', component: Placeholder },
   { path: '/admin/users', name: 'admin-users', component: Placeholder, meta: { requiresAuth: true, requiresRole: 'SUPERADMIN' } },
   { path: '/admin/categories', name: 'admin-categories', component: Placeholder, meta: { requiresAuth: true, requiresRole: 'SUPERADMIN' } },
