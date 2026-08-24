@@ -250,6 +250,9 @@ onMounted(cargar)
 </template>
 
 <style scoped>
+.detail {
+  min-width: 0;
+}
 .detail__loading { padding: 3rem; text-align: center; color: var(--color-text-muted); }
 
 .detail__crumbs { display: flex; gap: 0.4rem; font-size: 0.85rem; margin-bottom: 1rem; }
@@ -280,6 +283,7 @@ onMounted(cargar)
 /* Mobile-first: los paneles se apilan en movil y van lado a lado
    desde 900px. En movil siguen siendo claramente dos secciones. */
 .detail__sides { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+.detail__sides > * { min-width: 0; }
 @media (min-width: 900px) {
   .detail__sides { grid-template-columns: 1fr 1fr; }
 }

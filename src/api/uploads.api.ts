@@ -28,9 +28,23 @@ export const uploadsApi = {
     return null
   },
 
-  async document(file: File): Promise<string> {
+async document(file: File): Promise<string> {
     const raw = await apiClient.upload<unknown>('/uploads/document', file)
     const body = raw as Record<string, unknown>
-    return String(body.url ?? '')
-  },
+    const ruta = String(body.url ?? '')
+
+    // El API devuelve una ruta relativa (/uploads/archivo.docx), pero el
+    // campo de la fuente se valida con Zod como URL completa (debe empezar
+    // con http:// o https://). Si ya viene absoluta no se toca; si viene
+    // relativa, se completa con el origen del servidor.
+    if (ruta.startsWith('http://') || ruta.startsWith('https://')) {
+        return ruta
+    }
+
+    // import.meta.env.VITE_API_URL es algo como http://localhost:3000/api.
+    // Se quita el sufijo /api para quedarse con el origen del servidor,
+    // porque /uploads/... no vive bajo /api.
+    const origen = import.meta.env.VITE_API_URL.replace(/\/api\/?$/, '')
+    return `${origen}${ruta}`
+},
 }

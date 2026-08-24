@@ -46,6 +46,7 @@ const emit = defineEmits<{ (e: 'react', tipo: 'like' | 'dislike'): void }>()
   padding: 1.2rem;
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 .panel--a { border-left-color: var(--color-side-a); }
 .panel--b { border-left-color: var(--color-side-b); }
@@ -61,7 +62,13 @@ const emit = defineEmits<{ (e: 'react', tipo: 'like' | 'dislike'): void }>()
 .panel--a .panel__tag { color: var(--color-side-a); }
 .panel--b .panel__tag { color: var(--color-side-b); }
 
-.panel__title { font-size: 1.15rem; margin: 0 0 0.7rem; line-height: 1.35; }
-.panel__text { color: var(--color-text); line-height: 1.65; margin: 0; white-space: pre-line; }
+.panel__title { font-size: 1.15rem; margin: 0 0 0.7rem; line-height: 1.35; overflow-wrap: break-word; }
+.panel__text {
+  color: var(--color-text);
+  line-height: 1.65;
+  margin: 0;
+  white-space: pre-line;
+  overflow-wrap: break-word;
+}
 .panel__foot { margin-top: auto; padding-top: 1.2rem; }
 </style>
