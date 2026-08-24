@@ -29,7 +29,7 @@ const routes: RouteRecordRaw[] = [
   { path: '/views/:id/edit', name: 'view-edit', component: () => import('../views/ViewFormView.vue'), meta: { requiresAuth: true } },
   { path: '/profile', name: 'profile', component: Placeholder, meta: { requiresAuth: true } },
    { path: '/search', name: 'search', component: () => import('../views/SearchView.vue') },
-  { path: '/authors/:id', name: 'author', component: Placeholder },
+  { path: '/authors/:id', name: 'author', component: () => import('../views/AuthorView.vue') },
   { path: '/admin/users', name: 'admin-users', component: Placeholder, meta: { requiresAuth: true, requiresRole: 'SUPERADMIN' } },
   { path: '/admin/categories', name: 'admin-categories', component: Placeholder, meta: { requiresAuth: true, requiresRole: 'SUPERADMIN' } },
   { path: '/admin/moderation', name: 'admin-moderation', component: Placeholder, meta: { requiresAuth: true, requiresRole: 'SUPERADMIN' } },
