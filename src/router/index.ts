@@ -20,7 +20,9 @@ const routes: RouteRecordRaw[] = [
   { path: '/', name: 'board', component: () => import('../views/BoardView.vue') },
   { path: '/login', name: 'login', component: () => import('../views/LoginView.vue'), meta: { guestOnly: true } },
   { path: '/register', name: 'register', component: () => import('../views/RegisterView.vue'), meta: { guestOnly: true } },
-  { path: '/categories/:id', name: 'category', component: Placeholder },
+  
+  { path: '/categories/:id', name: 'category', component: () => import('../views/CategoryView.vue') },
+
   { path: '/views/new', name: 'view-new', component: () => import('../views/ViewFormView.vue'), meta: { requiresAuth: true } },
   { path: '/views/:id', name: 'view-detail', component: () => import('../views/ViewDetailView.vue') },
   { path: '/views/:id/edit', name: 'view-edit', component: () => import('../views/ViewFormView.vue'), meta: { requiresAuth: true } },
