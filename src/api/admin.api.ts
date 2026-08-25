@@ -14,29 +14,38 @@ function buildQuery(params: Record<string, unknown>): string {
   return query.length > 0 ? `?${query}` : ''
 }
 
-// El nombre de la propiedad es pageSize porque así lo declara la
-// interfaz Paginated<T> del proyecto. Si el servidor responde con
-// 'limit', la traducción ocurre acá y no en los componentes.
-function normalize<T>(
-  raw: unknown,
-  key: string,
-  page: number,
-  pageSize: number,
-): Paginated<T> {
-  if (Array.isArray(raw)) {
-    return { items: raw as T[], total: raw.length, page, pageSize }
-  }
+// El API usa 'limit' como nombre del parametro de tamano de pagina, pero la
+
+// interfaz Paginated<T> del proyecto usa 'pageSize'. Esta funcion traduce
+
+// entre los dos: recibe 'limit' porque asi lo devuelve el servidor, y arma
+
+// el objeto de salida con 'pageSize' porque asi lo espera el resto de la
+
+// aplicacion.
+
+function normalize<T>(raw: unknown, key: string, page: number, limit: number): Paginated<T> {
+
+  if (Array.isArray(raw)) return { items: raw as T[], total: raw.length, page, pageSize: limit }
 
   const body = raw as Record<string, unknown>
+
   const items = (body[key] ?? body.items ?? body.data ?? []) as T[]
 
   return {
+
     items,
+
     total: Number(body.total ?? items.length),
+
     page: Number(body.page ?? page),
-    pageSize: Number(body.pageSize ?? body.limit ?? pageSize),
+
+    pageSize: Number(body.limit ?? limit),
+
   }
+
 }
+
 
 export const adminApi = {
   async listUsers(
