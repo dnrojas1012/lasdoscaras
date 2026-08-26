@@ -5,17 +5,7 @@ import type { RouteRecordRaw } from 'vue-router'
 import { applyGuards } from './guards'
 
 
-// Importación diferida: el archivo se descarga solo cuando el usuario
-
-// entra a esa ruta, no al arrancar la aplicación. Hace que la app
-
-// cargue más rápido la primera vez.
-
-
-const Placeholder = () => import('../views/PlaceholderView.vue')
-
 // 'meta' es información extra que se le cuelga a cada ruta.
-// En la ola 3, los guards la van a leer para decidir si dejan pasar.
 
 const routes: RouteRecordRaw[] = [
   
@@ -29,8 +19,8 @@ const routes: RouteRecordRaw[] = [
   { path: '/views/new', name: 'view-new', component: () => import('../views/ViewFormView.vue'), meta: { requiresAuth: true } },
   { path: '/views/:id', name: 'view-detail', component: () => import('../views/ViewDetailView.vue') },
   { path: '/views/:id/edit', name: 'view-edit', component: () => import('../views/ViewFormView.vue'), meta: { requiresAuth: true } },
-   { path: '/profile', name: 'profile', component: () => import('../views/ProfileView.vue'), meta: { requiresAuth: true } },
-   { path: '/search', name: 'search', component: () => import('../views/SearchView.vue') },
+  { path: '/profile', name: 'profile', component: () => import('../views/ProfileView.vue'), meta: { requiresAuth: true } },
+  { path: '/search', name: 'search', component: () => import('../views/SearchView.vue') },
   { path: '/authors/:id', name: 'author', component: () => import('../views/AuthorView.vue') },
     { path: '/admin/users', name: 'admin-users', component: () => import('../views/AdminUsersView.vue'), meta: { requiresAuth: true, requiresRole: 'SUPERADMIN' } },
     { path: '/admin/categories', name: 'admin-categories', component: () => import('../views/AdminCategoriesView.vue'), meta: { requiresAuth: true, requiresRole: 'SUPERADMIN' } },
