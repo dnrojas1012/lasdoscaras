@@ -80,7 +80,7 @@ function asUser(row: Record<string, unknown>): User {
 
 // texto 'status: BANNED'- en lugar de apostar a una sola.
 
-function estaBaneado(u: User & { banned?: boolean }): boolean {
+function estaBaneado(u: User & { banned?: boolean; status?: string }): boolean {
 
   if (typeof u.banned === 'boolean') return u.banned
 
@@ -96,15 +96,11 @@ async function cargar(): Promise<void> {
 
   try {
 
-    const data = await adminApi.listUsers({
-
-      search: busquedaDebounced.value || undefined,
-
-      page: pagina.value,
-
-      limit: limite,
-
-    })
+  const data = await adminApi.listUsers({
+    search: busquedaDebounced.value || undefined,
+    page: pagina.value,
+    pageSize: limite,
+  })
 
     usuarios.value = data.items
 

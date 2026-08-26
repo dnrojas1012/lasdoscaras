@@ -67,13 +67,10 @@ async function cargar(): Promise<void> {
   try {
 
     const data = await adminApi.listViews({
-
+      
       status: filtroEstado.value || undefined,
-
       page: pagina.value,
-
-      limit: limite,
-
+      pageSize: limite,
     })
 
     items.value = data.items
