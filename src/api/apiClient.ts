@@ -365,6 +365,73 @@ async function request<T>(
   throw new ApiError(status, message, fieldErrors)
 
 }
+// =====================================================================
+// SUBIDA DE ARCHIVOS
+// =====================================================================
+// No reutiliza request() a proposito. request() fija
+// 'Content-Type: application/json' y convierte el cuerpo con
+// JSON.stringify, y un archivo no se puede convertir a JSON: viaja como
+// multipart/form-data, un formato cuyo delimitador tiene que generar el
+// navegador. Si el header se escribe a mano, el navegador no puede
+// insertar ese delimitador y el servidor recibe un cuerpo ilegible.
+async function uploadFile<T>(path: string, file: File): Promise<T> {
+  const form = new FormData()
+  // El nombre del campo tiene que ser exactamente 'file':
+  // asi lo espera el API del curso.
+  form.append('file', file)
+
+  // Solo se manda Authorization. El Content-Type lo pone el navegador.
+  const headers: Record<string, string> = {}
+  const token = getToken()
+  if (token !== null) {
+    headers.Authorization = `Bearer ${token}`
+  }
+
+  let response: Response
+  try {
+    response = await fetch(`${BASE_URL}${path}`, {
+      method: 'POST',
+      headers,
+      body: form,
+    })
+  } catch {
+    // No se reintenta: repetir una subida crearia un archivo duplicado
+    // en el servidor.
+    throw new NetworkError()
+  }
+
+  let payload: unknown = null
+  try {
+    payload = await response.json()
+  } catch {
+    payload = null
+  }
+
+  if (response.ok) {
+    return payload as T
+  }
+
+  const status = response.status
+  const serverMessage =
+    typeof payload === 'object' && payload !== null && 'message' in payload
+      ? String((payload as Record<string, unknown>).message)
+      : null
+
+  // 413 es "archivo demasiado grande". No esta en la tabla general
+  // porque solo puede ocurrir al subir archivos.
+  const message =
+    serverMessage ??
+    (status === 413
+      ? 'El archivo excede el tamaño máximo permitido (20 MB).'
+      : HTTP_MESSAGES[status] ?? 'No fue posible subir el archivo.')
+
+  if (status === 401) {
+    cacheService.remove(CACHE_KEYS.auth)
+    if (onUnauthorized !== null) onUnauthorized()
+  }
+
+  throw new ApiError(status, message)
+}
 
 // =====================================================================
 
@@ -387,5 +454,6 @@ export const apiClient = {
   patch: <T>(path: string, body?: unknown): Promise<T> => request<T>('PATCH', path, body),
 
   delete: <T>(path: string): Promise<T> => request<T>('DELETE', path),
-
+  
+  upload: <T>(path: string, file: File): Promise<T> => uploadFile<T>(path, file),
 }

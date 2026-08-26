@@ -37,15 +37,38 @@ export type SideKey = 'a' | 'b'
 
 // Convierte el objeto de filtros en la cadena ?clave=valor de la URL.
 // Se omiten los valores vacíos para no mandar parámetros inútiles.
+// Convierte el objeto de filtros en la cadena ?clave=valor de la URL.
+
+// Se omiten los valores vacios para no mandar parametros inutiles.
+
+//
+
+// Traduce pageSize a limit: nuestra interfaz Paginated<T> usa 'pageSize',
+
+// pero el API espera 'limit'. La traduccion se hace aca, en un solo lugar,
+
+// para no arrastrar el nombre del API al resto de la aplicacion.
+
 function buildQuery(params: Record<string, unknown>): string {
+
   const search = new URLSearchParams()
+
   for (const [key, value] of Object.entries(params)) {
+
     if (value === undefined || value === null || value === '') continue
-    search.append(key, String(value))
+
+    const nombreReal = key === 'pageSize' ? 'limit' : key
+
+    search.append(nombreReal, String(value))
+
   }
+
   const query = search.toString()
+
   return query.length > 0 ? `?${query}` : ''
+
 }
+
 
 // Convierte UN lado crudo del API (con likeCount/dislikeCount y type)
 // a la forma que usa la app (con likes/dislikes y kind).
