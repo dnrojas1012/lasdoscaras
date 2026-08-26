@@ -32,7 +32,7 @@ const routes: RouteRecordRaw[] = [
    { path: '/profile', name: 'profile', component: () => import('../views/ProfileView.vue'), meta: { requiresAuth: true } },
    { path: '/search', name: 'search', component: () => import('../views/SearchView.vue') },
   { path: '/authors/:id', name: 'author', component: () => import('../views/AuthorView.vue') },
-  { path: '/admin/users', name: 'admin-users', component: Placeholder, meta: { requiresAuth: true, requiresRole: 'SUPERADMIN' } },
+    { path: '/admin/users', name: 'admin-users', component: () => import('../views/AdminUsersView.vue'), meta: { requiresAuth: true, requiresRole: 'SUPERADMIN' } },
   { path: '/admin/categories', name: 'admin-categories', component: Placeholder, meta: { requiresAuth: true, requiresRole: 'SUPERADMIN' } },
   { path: '/admin/moderation', name: 'admin-moderation', component: Placeholder, meta: { requiresAuth: true, requiresRole: 'SUPERADMIN' } },
   { path: '/403', name: 'forbidden', component: () => import('../views/ForbiddenView.vue') },
