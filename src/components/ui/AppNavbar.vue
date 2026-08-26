@@ -84,7 +84,7 @@ function cerrarSesion(): void {
 
         <RouterLink to="/profile">{{ auth.user?.name }}</RouterLink>
 
-        <RouterLink v-if="auth.isSuperadmin" to="/admin/users">Admin</RouterLink>
+        <RouterLink v-if="auth.isSuperadmin" to="/admin/users">Panel de administración</RouterLink>
 
         <button class="nav__logout" @click="cerrarSesion">Salir</button>
 
