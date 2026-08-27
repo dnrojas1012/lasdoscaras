@@ -22,6 +22,8 @@ const favorites = useFavoritesStore()
 
 const termino = ref('')
 
+const menuAdminAbierto = ref(false)
+
 // Debounce de 300 ms, exigido por el enunciado.
 
 const terminoDebounced = useDebounce(termino, 300)
@@ -84,7 +86,26 @@ function cerrarSesion(): void {
 
         <RouterLink to="/profile">{{ auth.user?.name }}</RouterLink>
 
-        <RouterLink v-if="auth.isSuperadmin" to="/admin/users">Panel de administración</RouterLink>
+        <div v-if="auth.isSuperadmin" class="admin-menu">
+  <button
+    class="admin-menu__trigger"
+    :aria-expanded="menuAdminAbierto"
+    @click="menuAdminAbierto = !menuAdminAbierto"
+  >
+    Administración ▾
+  </button>
+  <div v-if="menuAdminAbierto" class="admin-menu__list" role="menu">
+    <RouterLink to="/admin/users" role="menuitem" @click="menuAdminAbierto = false">
+      Gestión de Usuarios
+    </RouterLink>
+    <RouterLink to="/admin/categories" role="menuitem" @click="menuAdminAbierto = false">
+      Gestión de Categorías
+    </RouterLink>
+    <RouterLink to="/admin/moderation" role="menuitem" @click="menuAdminAbierto = false">
+      Moderación de Contenido
+    </RouterLink>
+  </div>
+</div>
 
         <button class="nav__logout" @click="cerrarSesion">Salir</button>
 
@@ -105,6 +126,23 @@ function cerrarSesion(): void {
 </template>
 
 <style scoped>
+.admin-menu { position: relative; }
+.admin-menu__trigger {
+  background: none; border: none; color: var(--color-text);
+  cursor: pointer; font-size: 0.9rem; padding: 0;
+}
+.admin-menu__list {
+  position: absolute; top: 100%; right: 0; margin-top: 0.4rem;
+  background: var(--color-surface); border: 1px solid var(--color-border);
+  border-radius: 8px; padding: 0.4rem; min-width: 12rem; z-index: 200;
+  display: flex; flex-direction: column; gap: 0.2rem;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
+}
+.admin-menu__list a {
+  padding: 0.5rem 0.7rem; border-radius: 6px;
+  color: var(--color-text); text-decoration: none; font-size: 0.85rem;
+}
+.admin-menu__list a:hover { background: var(--color-bg); }
 
 .nav {
 
