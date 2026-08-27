@@ -14,16 +14,6 @@ function buildQuery(params: Record<string, unknown>): string {
   return query.length > 0 ? `?${query}` : ''
 }
 
-// El API usa 'limit' como nombre del parametro de tamano de pagina, pero la
-
-// interfaz Paginated<T> del proyecto usa 'pageSize'. Esta funcion traduce
-
-// entre los dos: recibe 'limit' porque asi lo devuelve el servidor, y arma
-
-// el objeto de salida con 'pageSize' porque asi lo espera el resto de la
-
-// aplicacion.
-
 function normalize<T>(raw: unknown, key: string, page: number, limit: number): Paginated<T> {
 
   if (Array.isArray(raw)) return { items: raw as T[], total: raw.length, page, pageSize: limit }

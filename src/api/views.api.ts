@@ -36,39 +36,19 @@ export interface ViewPayload {
 export type SideKey = 'a' | 'b'
 
 // Convierte el objeto de filtros en la cadena ?clave=valor de la URL.
-// Se omiten los valores vacíos para no mandar parámetros inútiles.
-// Convierte el objeto de filtros en la cadena ?clave=valor de la URL.
-
-// Se omiten los valores vacios para no mandar parametros inutiles.
-
-//
-
-// Traduce pageSize a limit: nuestra interfaz Paginated<T> usa 'pageSize',
-
-// pero el API espera 'limit'. La traduccion se hace aca, en un solo lugar,
-
-// para no arrastrar el nombre del API al resto de la aplicacion.
 
 function buildQuery(params: Record<string, unknown>): string {
-
   const search = new URLSearchParams()
-
   for (const [key, value] of Object.entries(params)) {
-
     if (value === undefined || value === null || value === '') continue
-
     const nombreReal = key === 'pageSize' ? 'limit' : key
-
     search.append(nombreReal, String(value))
-
   }
 
   const query = search.toString()
-
   return query.length > 0 ? `?${query}` : ''
 
 }
-
 
 // Convierte UN lado crudo del API (con likeCount/dislikeCount y type)
 // a la forma que usa la app (con likes/dislikes y kind).
@@ -121,10 +101,6 @@ function normalizeList(raw: unknown, page: number, pageSize: number): Paginated<
     items,
     total: Array.isArray(raw) ? items.length : Number(body.total ?? items.length),
     page: Array.isArray(raw) ? page : Number(body.page ?? page),
-    // El API real devuelve el campo como 'limit' (lo confirmamos en la
-    // consola), pero nuestra interfaz Paginated<T> lo llama 'pageSize'.
-    // Se traduce el nombre acá para no arrastrar esa inconsistencia
-    // al resto de la aplicación.
     pageSize: Array.isArray(raw) ? pageSize : Number(body.limit ?? pageSize),
   }
 }

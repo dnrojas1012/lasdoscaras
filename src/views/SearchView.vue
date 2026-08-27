@@ -148,7 +148,7 @@ onMounted(() => void buscar(termino.value))
 
         type="search"
 
-        placeholder="Escribí al menos 2 caracteres…"
+        placeholder="Escriba al menos 2 caracteres…"
 
         autocomplete="off"
 
@@ -158,7 +158,7 @@ onMounted(() => void buscar(termino.value))
 
     <p v-if="termino.trim().length > 0 && termino.trim().length < 2" class="search__hint">
 
-      Escribí al menos 2 caracteres para buscar.
+      Escriba al menos 2 caracteres para buscar.
 
     </p>
 
@@ -296,9 +296,9 @@ onMounted(() => void buscar(termino.value))
 
       v-else
 
-      title="Buscá cualquier tema"
+      title="Busque cualquier tema"
 
-      message="Podés buscar por título, argumento, categoría, hashtag o autor."
+      message="Puede buscar por título, argumento, categoría, hashtag o autor."
 
     />
 

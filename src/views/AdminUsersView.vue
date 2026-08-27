@@ -276,7 +276,7 @@ async function confirmar(): Promise<void> {
 
         </button>
 
-        <span v-else class="admin__self" title="No podés banearte a vos mismo">—</span>
+        <span v-else class="admin__self" title="No puede banearse a sí mismo">—</span>
 
       </template>
 
@@ -294,9 +294,9 @@ async function confirmar(): Promise<void> {
 
         accionObjetivo === 'ban'
 
-          ? `${usuarioObjetivo?.name} no va a poder iniciar sesión hasta que se le desbanee. ¿Confirmás?`
+          ? `${usuarioObjetivo?.name} no va a poder iniciar sesión hasta que se le desbanee. 	¿Confirma?`
 
-          : `${usuarioObjetivo?.name} va a recuperar el acceso a su cuenta. ¿Confirmás?`
+          : `${usuarioObjetivo?.name} va a recuperar el acceso a su cuenta. ¿Confirma?`
 
       "
 

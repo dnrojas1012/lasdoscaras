@@ -7,8 +7,7 @@ import { RouterLink } from 'vue-router'
     <p class="err__code" aria-hidden="true">403</p>
     <h1>Acceso denegado</h1>
     <p class="err__msg">
-      No tenés permisos para ver esta sección. Si creés que es un error,
-      contactá a un administrador.
+      No tiene permisos para ver esta sección..
     </p>
     <RouterLink to="/" class="err__btn">Volver al inicio</RouterLink>
   </section>

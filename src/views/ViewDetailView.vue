@@ -104,7 +104,7 @@ async function alternarFavorito(): Promise<void> {
 async function crearHilo(): Promise<void> {
   if (creandoHilo.value || vista.value === null) return
   if (nuevoHiloTexto.value.trim().length < 2) {
-    toast.warning('Escribí el contenido del hilo')
+    toast.warning('Escriba el contenido del hilo')
     return
   }
   creandoHilo.value = true

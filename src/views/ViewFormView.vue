@@ -119,10 +119,10 @@ onMounted(async () => {
         hashtags: vista.hashtags.map((h) => h.name),
       }
     } catch (e) {
-      if (e instanceof ApiError && e.status === 404) {
-        void router.replace({ name: 'not-found' })
-        return
-      }
+      if (e instanceof ApiError && (e.status === 404 || e.status === 400)) {
+  void router.replace({ name: 'not-found' })
+  return
+}
       errorCarga.value = e instanceof ApiError || e instanceof NetworkError
         ? e.message
         : 'No se pudo cargar la publicación.'
@@ -191,7 +191,7 @@ async function enviar(): Promise<void> {
   if (enviando.value) return
 
   if (!validar()) {
-    toast.warning('Revisá los campos marcados en rojo')
+    toast.warning('Revise los campos marcados en rojo')
     // Lleva el foco al primer error, para que no quede fuera de pantalla.
     const primero = document.querySelector('[aria-invalid="true"]')
     if (primero instanceof HTMLElement) primero.focus()
@@ -223,17 +223,22 @@ async function enviar(): Promise<void> {
       // El API usa 'side' y 'counterpart' como prefijo del path.
       const campos = e.fieldErrors
       if (Object.keys(campos).length > 0) {
-        for (const [clave, mensaje] of Object.entries(campos)) {
-          if (clave === 'categoryId') errores.value.general.categoryId = mensaje
-          else if (clave === 'title' || clave === 'description') {
-            errores.value.side[clave] = mensaje
-            errores.value.counterpart[clave] = mensaje
-          } else errores.value.general[clave] = mensaje
-        }
-        toast.error('El servidor rechazó algunos campos')
-      } else {
-        toast.error(e.message)
-      }
+  let huboInline = false
+  for (const [clave, mensaje] of Object.entries(campos)) {
+    if (clave === 'categoryId') { errores.value.general.categoryId = mensaje; huboInline = true }
+    else if (clave === 'title' || clave === 'description') {
+      errores.value.side[clave] = mensaje
+      errores.value.counterpart[clave] = mensaje
+      huboInline = true
+    } else {
+      // Un campo que el API devuelve pero que no mapea a ningun input
+      // conocido del formulario: se muestra el mensaje real en el toast,
+      // para que nunca se pierda en silencio.
+      toast.error(mensaje)
+    }
+  }
+  if (huboInline) toast.warning('Revise los campos marcados en rojo')
+}
     } else if (e instanceof NetworkError) {
       toast.error(e.message)
     } else {
@@ -289,7 +294,7 @@ onBeforeRouteLeave((to) => {
 
     <!-- Restauracion de borrador -->
     <div v-if="mostrarRestaurar" class="draft" role="status">
-      <span>Tenés un borrador sin publicar. ¿Querés recuperarlo?</span>
+      <span>Tiene un borrador sin publicar. ¿Desea recuperarlo?</span>
       <div class="draft__actions">
         <button type="button" class="btn btn--sm" @click="restaurarBorrador">Restaurar</button>
         <button type="button" class="btn btn--sm btn--ghost" @click="descartarBorrador">Descartar</button>
@@ -354,7 +359,7 @@ onBeforeRouteLeave((to) => {
     <ConfirmModal
       :open="modalSalir"
       title="Salir sin guardar"
-      message="Tenés cambios sin guardar. Si salís ahora se perderán los que no estén en el borrador."
+      message="Tiene cambios sin guardar. Si sale ahora, se perderán los que no estén en el borrador."
       confirm-text="Salir sin guardar"
       danger
       @confirm="confirmarSalida"

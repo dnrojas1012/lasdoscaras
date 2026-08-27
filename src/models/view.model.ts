@@ -5,16 +5,14 @@ import type { Hashtag } from './hashtag.model'
 // El API llama SIDE al Lado A (Postura)
 // y COUNTERPART al Lado B (Contrapostura).
 export type SideKind = 'SIDE' | 'COUNTERPART'
-
 export type ViewStatus = 'PUBLISHED' | 'UNPUBLISHED'
-
 export type ReactionType = 'LIKE' | 'DISLIKE'
 
 // Una de las dos caras de una publicación.
 export interface ViewSide {
     id: string
     // Opcional porque el API no siempre lo devuelve dentro de side/counterpart:
-    // ya viene implícito en la propiedad donde está anidado.
+    // ya viene implícito
     kind?: SideKind
     title: string
     description: string

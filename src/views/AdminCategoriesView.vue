@@ -194,8 +194,8 @@ async function confirmarEliminar(): Promise<void> {
       title="Eliminar categoría"
       :message="
         objetivoEliminar && objetivoEliminar.count > 0
-          ? `Esta categoría tiene ${objetivoEliminar.count} publicaciones asociadas. Eliminarla no borra esas publicaciones. ¿Confirmás?`
-          : '¿Confirmás que querés eliminar esta categoría?'
+          ? `Esta categoría tiene ${objetivoEliminar.count} publicaciones asociadas. Eliminarla no borra esas publicaciones. 	¿Confirma?`
+          : '¿Confirma que desea eliminar esta categoría?'
       "
       confirm-text="Eliminar"
       danger

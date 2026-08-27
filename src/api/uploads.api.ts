@@ -1,6 +1,6 @@
 import { apiClient } from './apiClient'
 
-// Tipos que el API acepta, segun su documentacion.
+// Tipos que el API acepta
 const TIPOS_PERMITIDOS = [
   'application/pdf',
   'application/msword',

@@ -65,7 +65,7 @@ class="react react--dislike"
 .react__count { font-weight: 600; }
 
 
-/* El estado activo se destaca visualmente, como pide el enunciado. */
+/* El estado activo se destaca visualmente */
 .react--like.react--active {
     background: var(--color-success);
     border-color: var(--color-success);
