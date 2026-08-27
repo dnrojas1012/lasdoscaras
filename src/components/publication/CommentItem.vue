@@ -11,7 +11,7 @@ const fecha = computed(() =>
   }),
 )
 
-// El enunciado pide respuestas de un solo nivel.
+// Respuestas de un solo nivel.
 const puedeResponder = computed(() => (props.nivel ?? 0) === 0)
 </script>
 

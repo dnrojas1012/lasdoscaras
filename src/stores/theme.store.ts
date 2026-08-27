@@ -5,6 +5,9 @@ import { cacheService, CACHE_KEYS } from '../services/cacheService'
 export type Theme = 'light' | 'dark'
 
 export const useThemeStore = defineStore('theme', () => {
+    // Se lee del atributo que ya puso el script de index.html antes de que
+    // Vue arrancara. Leerlo de ahi, y no directo del cache, evita que el
+    // store contradiga el tema que la persona ya esta viendo en pantalla.
     const current = ref<Theme>(
         (document.documentElement.getAttribute('data-theme') as Theme) ?? 'light',
     )

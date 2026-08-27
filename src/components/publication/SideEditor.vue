@@ -20,7 +20,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{ (e: 'update:modelValue', value: SideDraft): void }>()
 
-// Limites del enunciado.
+// Limites.
 const MAX_TITULO = 120
 const MIN_DESC = 100
 

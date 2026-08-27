@@ -94,10 +94,10 @@ async function enviar(): Promise<void> {
           :id="`c-${thread.id}`"
           v-model="texto"
           rows="3"
-          placeholder="Escribí tu comentario…"
+          placeholder="Escriba su comentario…"
         ></textarea>
 
-        <!-- Advertencia de moderacion, requerida por el enunciado. -->
+        <!-- Advertencia de moderacion -->
         <p class="thread__warn">
           Los comentarios son revisados automáticamente. El contenido ofensivo puede ser removido.
         </p>
@@ -108,7 +108,7 @@ async function enviar(): Promise<void> {
       </div>
 
       <p v-else class="thread__login">
-        <RouterLink to="/login">Iniciá sesión</RouterLink> para participar en la discusión.
+        <RouterLink to="/login">Inicie sesión</RouterLink> para participar en la discusión.
       </p>
     </div>
   </article>

@@ -25,9 +25,8 @@ interface CacheEntry<T> {
     timestamp: number
 }
 
-// Lee la entrada cruda y la convierte de texto a objeto.
+// Lee la entrada y la convierte de texto a objeto.
 // localStorage solo guarda texto
-
 function readEntry<T>(key: CacheKey): CacheEntry<T> | null {
     try {
         const raw = localStorage.getItem(key)

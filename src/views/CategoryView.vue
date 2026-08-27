@@ -234,7 +234,7 @@ onMounted(cargar)
 
       title="Esta categoría todavía no tiene publicaciones"
 
-      message="Podés ser el primero en publicar un tema en esta categoría."
+      message="Puede ser el primero en publicar un tema en esta categoría."
 
     >
 

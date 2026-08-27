@@ -380,7 +380,7 @@ watch(
 
         v-else-if="misFavoritos.length === 0"
 
-        title="No tenés publicaciones favoritas"
+        title="No tiene publicaciones favoritas"
 
         message="Marcá publicaciones con la estrella para encontrarlas acá."
 

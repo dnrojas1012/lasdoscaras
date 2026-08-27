@@ -34,8 +34,7 @@ const items = computed(() =>
           </a>
         </div>
 
-        <!-- Los videos de YouTube se muestran incrustados,
-             como pide el enunciado. -->
+        <!-- Los videos de YouTube se muestran incrustados -->
         <div v-if="src.videoId" class="source__video">
           <iframe
             :src="`https://www.youtube.com/embed/${src.videoId}`"
@@ -57,8 +56,6 @@ const items = computed(() =>
 .source__head a { color: var(--color-primary); word-break: break-all; }
 .source__icon { flex-shrink: 0; }
 
-/* Truco clasico para que el video mantenga proporcion 16:9
-   sin importar el ancho de la pantalla. */
 .source__video {
   position: relative;
   padding-top: 56.25%;
