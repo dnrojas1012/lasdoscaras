@@ -46,7 +46,7 @@ onMounted(() => {
 
   if (route.query.expired === '1') {
 
-    toast.warning('Su sesión ha expirado. Ingresá de nuevo.')
+    toast.warning('Su sesión ha expirado. Ingrese de nuevo.')
 
   }
 
@@ -62,7 +62,7 @@ function validar(): boolean {
 
   } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
 
-    errores.value.email = 'Ingresá un correo con formato válido'
+    errores.value.email = 'Ingrese un correo con formato válido'
 
   }
 
@@ -148,7 +148,7 @@ async function enviar(): Promise<void> {
 
 <template>
 
-  <AuthCard title="Iniciar sesión" subtitle="Ingresá para reaccionar, comentar y publicar.">
+  <AuthCard title="Iniciar sesión" subtitle="Ingrese para reaccionar, comentar y publicar.">
 
     <!-- @submit.prevent evita que el navegador recargue la pagina.
 
@@ -204,7 +204,7 @@ async function enviar(): Promise<void> {
 
     <p class="form__foot">
 
-      ¿No tenés cuenta?
+      ¿No tiene cuenta?
 
       <RouterLink to="/register">Registrate acá</RouterLink>
 

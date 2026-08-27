@@ -12,7 +12,7 @@ import { RouterLink } from 'vue-router'
 
     <h1>Página no encontrada</h1>
 
-    <p class="err__msg">La dirección que buscás no existe o fue movida.</p>
+    <p class="err__msg">La dirección que busca no existe.</p>
 
     <RouterLink to="/" class="err__btn">Volver al inicio</RouterLink>
 

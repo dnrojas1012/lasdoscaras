@@ -8,7 +8,6 @@ import FilterPanel from '../components/publication/FilterPanel.vue'
 import SkeletonCard from '../components/ui/SkeletonCard.vue'
 import EmptyState from '../components/ui/EmptyState.vue'
 import BasePagination from '../components/ui/BasePagination.vue'
-import OfflineBanner from '../components/ui/OfflineBanner.vue'
 import { ApiError, NetworkError } from '../api/apiClient'
 import type { PoliticalView } from '../models/view.model'
 
@@ -26,7 +25,6 @@ const pageSize = 12
 // Los tres estados de interfaz que exige la rubrica.
 const cargando = ref(true)
 const error = ref<string | null>(null)
-const sinConexion = ref(false)
 
 // Los filtros se leen de la URL para que sean compartibles
 // y sobrevivan a una recarga. Es un requisito del enunciado.
@@ -40,7 +38,6 @@ const filtros = ref({
 async function cargar(): Promise<void> {
   cargando.value = true
   error.value = null
-  sinConexion.value = false
 
   try {
     const data = await viewsApi.list({
@@ -53,17 +50,14 @@ async function cargar(): Promise<void> {
     items.value = data.items
     total.value = data.total
   } catch (e) {
-    if (e instanceof NetworkError) {
-      error.value = e.message
-      sinConexion.value = true
-    } else if (e instanceof ApiError) {
-      error.value = e.message
-    } else {
-      error.value = 'Ocurrió un error inesperado al cargar las publicaciones.'
-    }
-  } finally {
-    cargando.value = false
+  if (e instanceof ApiError || e instanceof NetworkError) {
+    error.value = e.message
+  } else {
+    error.value = 'Ocurrió un error inesperado al cargar las publicaciones.'
   }
+} finally {
+  cargando.value = false
+}
 }
 
 // Escribe los filtros en la URL. El watch de abajo detecta el cambio y recarga.
@@ -109,7 +103,6 @@ onMounted(() => {
 
 <template>
   <section>
-    <OfflineBanner :stale="sinConexion" />
 
     <h1 class="board__title">Las dos caras de cada tema</h1>
 

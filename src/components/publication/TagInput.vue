@@ -92,7 +92,7 @@ function onKeydown(event: KeyboardEvent): void {
         v-model="texto"
         type="text"
         :disabled="disabled || modelValue.length >= limite"
-        :placeholder="modelValue.length >= limite ? `Máximo ${limite} hashtags` : 'Escribí y presioná Enter'"
+        :placeholder="modelValue.length >= limite ? `Máximo ${limite} hashtags` : 'Escriba y presione Enter'"
         :aria-describedby="error ? 'tag-error' : 'tag-hint'"
         @keydown="onKeydown"
         @blur="agregar(texto)"

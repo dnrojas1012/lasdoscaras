@@ -121,7 +121,7 @@ async function elegirArchivo(indice: number, event: Event): Promise<void> {
         <input
           :id="`${idPrefix}-url-${i}`"
           :value="src.url"
-          type="url"
+          type="text"
           :placeholder="src.type === 'YOUTUBE' ? 'https://youtube.com/watch?v=...' : 'https://...'"
           @input="actualizar(i, { url: ($event.target as HTMLInputElement).value })"
         />

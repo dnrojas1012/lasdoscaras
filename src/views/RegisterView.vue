@@ -62,7 +62,7 @@ function validar(): boolean {
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
 
-    errores.value.email = 'Ingresá un correo con formato válido'
+    errores.value.email = 'Ingrese un correo con formato válido'
 
   }
 
@@ -242,7 +242,7 @@ async function enviar(): Promise<void> {
 
     <p class="form__foot">
 
-      ¿Ya tenés cuenta?
+      ¿Ya tiene cuenta?
 
       <RouterLink to="/login">Ingresá acá</RouterLink>
 
